@@ -27,3 +27,5 @@ libraryDependencies += "com.softwaremill.sttp.client" %% "core" % "2.0.0-RC7"
 libraryDependencies += "com.softwaremill.sttp.client" %% "httpclient-backend" % "2.0.0-RC7"
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.1.0"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.0" % "test"
+libraryDependencies += "io.circe" %% "circe-generic-extras" % "0.13.0"
+

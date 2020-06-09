@@ -1,3 +1,3 @@
 package dto
 
-case class ContributorDto(val name: String)
+case class ContributorDto(name: String)
