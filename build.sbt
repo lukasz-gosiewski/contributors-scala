@@ -21,10 +21,6 @@ libraryDependencies ++= Seq(
   "org.http4s" %% "http4s-blaze-client"
 ).map(_ % http4sVersion)
 
-libraryDependencies += "com.typesafe.play" %% "play" % "2.8.2"
-libraryDependencies += "com.softwaremill.sttp.client" %% "circe" % "2.0.0-RC7"
-libraryDependencies += "com.softwaremill.sttp.client" %% "core" % "2.0.0-RC7"
-libraryDependencies += "com.softwaremill.sttp.client" %% "httpclient-backend" % "2.0.0-RC7"
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.1.0"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.0" % "test"
 libraryDependencies += "io.circe" %% "circe-generic-extras" % "0.13.0"
