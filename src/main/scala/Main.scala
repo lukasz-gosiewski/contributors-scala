@@ -5,7 +5,11 @@ import org.http4s.server.Router
 import org.http4s.server.blaze.BlazeServerBuilder
 import service.{ContributorService, HelloWorldService}
 
+import scala.concurrent.ExecutionContext
+
 object Main extends IOApp {
+
+  implicit private val CS: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
 
   private val routes = HelloWorldService.helloWorldRoutes <+> ContributorService.contributorRoutes
   private val httpApp = Router("/" -> routes).orNotFound
