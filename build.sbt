@@ -21,7 +21,7 @@ libraryDependencies ++= Seq(
   "org.http4s" %% "http4s-blaze-client"
 ).map(_ % http4sVersion)
 
-libraryDependencies += "org.scalactic" %% "scalactic" % "3.1.0"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.0" % "test"
 libraryDependencies += "io.circe" %% "circe-generic-extras" % "0.13.0"
+libraryDependencies += "com.codecommit" %% "cats-effect-testing-scalatest" % "0.4.0"
 
