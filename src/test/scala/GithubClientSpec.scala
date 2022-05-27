@@ -13,7 +13,7 @@ import org.scalatest.matchers.should.Matchers
 // The purpose of those test is to perform TDD easily
 class GithubClientSpec extends AsyncFreeSpec with AsyncIOSpec with Matchers {
   private val ORG_NAME = "lgosiewski-test-org"
-  private val ORG_AUTH_TOKEN = sys.env("GH-TOKEN") // If there is no GH-TOKEN env variable, we will default to an empty string
+  private val ORG_AUTH_TOKEN = sys.env("GH-TOKEN")
 
   "getOrganizationRepos" - {
     "return no errors" in {
