@@ -18,3 +18,8 @@ return a list of contributors sorted by the number of contributions (this is for
 * taking advantage of the framework in use
 * HTTP protocol usage (response codes, headers, caching, etc.)
 * performance
+
+### How to run GithubClientSpec
+To run those tests you need a GH_TOKEN env variable set. You can edit a run configuration or set it as your system env variable.
+You can generate a new token (existing one will expire after 30 days) on:
+GH -> Personal Settings -> Developer Settings -> Personal Access Tokens
