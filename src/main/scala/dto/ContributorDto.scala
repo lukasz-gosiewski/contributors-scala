@@ -1,3 +1,3 @@
 package dto
 
-case class ContributorDto(name: String)
+case class ContributorDto(login: String, contributions: Int)

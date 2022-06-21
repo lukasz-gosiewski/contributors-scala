@@ -2,7 +2,7 @@ import cats.effect.IO
 import cats.effect.testing.scalatest.AsyncIOSpec
 import client.BlankNameError
 import client.GithubClient._
-import dto.RepositoryDto
+import dto.{ContributorDto, RepositoryDto}
 import org.http4s.blaze.client.BlazeClientBuilder
 import org.http4s.client.UnexpectedStatus
 import org.scalatest.freespec.AsyncFreeSpec
@@ -15,11 +15,11 @@ class GithubClientSpec extends AsyncFreeSpec with AsyncIOSpec with Matchers {
   private val ORG_NAME = "lgosiewski-test-org"
   private val ORG_AUTH_TOKEN = sys.env("GH-TOKEN")
 
-  "getOrganizationRepos" - {
+  "get organization repositories" - {
     "return no errors" in {
       val result: IO[Seq[RepositoryDto]] = BlazeClientBuilder[IO].resource
         .use(client => getOrganizationRepos(ORG_NAME, ORG_AUTH_TOKEN, client)
-      )
+        )
 
       result.assertNoException
     }
@@ -27,7 +27,7 @@ class GithubClientSpec extends AsyncFreeSpec with AsyncIOSpec with Matchers {
     "return a list of repositories" in {
       val result: IO[Seq[RepositoryDto]] = BlazeClientBuilder[IO].resource
         .use(client => getOrganizationRepos(ORG_NAME, ORG_AUTH_TOKEN, client)
-      )
+        )
 
       result.assertNoException
 
@@ -37,8 +37,7 @@ class GithubClientSpec extends AsyncFreeSpec with AsyncIOSpec with Matchers {
 
     "return error when organization does not exists" in {
       val result: IO[Seq[RepositoryDto]] = BlazeClientBuilder[IO].resource
-        .use(client => getOrganizationRepos("non-existing-org-name-123", ORG_AUTH_TOKEN, client)
-      )
+        .use(client => getOrganizationRepos("non-existing-org-name-123", ORG_AUTH_TOKEN, client))
 
       recoverToSucceededIf[UnexpectedStatus] {
         result.unsafeToFuture()
@@ -47,12 +46,27 @@ class GithubClientSpec extends AsyncFreeSpec with AsyncIOSpec with Matchers {
 
     "return error when organization name blank" in {
       val result: IO[Seq[RepositoryDto]] = BlazeClientBuilder[IO].resource
-        .use(client => getOrganizationRepos(" ", ORG_AUTH_TOKEN, client)
-      )
+        .use(client => getOrganizationRepos(" ", ORG_AUTH_TOKEN, client))
 
       recoverToSucceededIf[BlankNameError] {
         result.unsafeToFuture()
       }
+    }
+  }
+
+  "get repository contributors" - {
+    "return a list of contributors for a given repo" in {
+      val result: IO[Seq[ContributorDto]] = BlazeClientBuilder[IO].resource
+        .use(client => getRepositoryContributors(
+          "lukasz-gosiewski",
+          "contributors-scala",
+          ORG_AUTH_TOKEN,
+          client
+        ))
+
+      result.assertNoException
+      result.asserting(contributors => contributors.size shouldBe 1)
+      result.asserting(contributors => contributors.head.login shouldBe "lukasz-gosiewski")
     }
   }
 }
