@@ -1,4 +1,4 @@
-package service
+package controller
 
 
 import client._
@@ -10,7 +10,7 @@ import org.http4s.dsl.io._
 import io.circe.generic.semiauto.deriveEncoder
 import org.http4s.circe.jsonEncoderOf
 
-object ContributorService {
+object ContributorController {
   private implicit val contributorCirceEncoder: Encoder[ContributorDto] = deriveEncoder[ContributorDto]
   private implicit val contributorsEncoder: EntityEncoder[IO, Seq[ContributorDto]] = jsonEncoderOf
 
@@ -18,8 +18,11 @@ object ContributorService {
   private implicit val errorEncoder: EntityEncoder[IO, DomainError] = jsonEncoderOf
 
   val contributorRoutes: HttpRoutes[IO] = HttpRoutes.of[IO] {
-    case GET -> Root / "contributors" / "ranked" => getRankedContributors.fold(BadRequest(_), Ok(_))
+    case GET -> Root / "organizations" / organizationName / "contributors" / "ranked" =>
+      getRankedContributors(organizationName).fold(BadRequest(_), Ok(_))
   }
 
-  def getRankedContributors: Either[DomainError, Seq[ContributorDto]] = Left(BlankNameError())
+  def getRankedContributors(organizationName: String): Either[DomainError, Seq[ContributorDto]] = {
+    Left(BlankNameError())
+  }
 }
