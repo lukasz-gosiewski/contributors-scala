@@ -1,10 +1,16 @@
 package client
 
-import scala.util.control.NoStackTrace
+sealed trait DomainError extends Throwable
 
-sealed trait DomainError extends Throwable with NoStackTrace {
-  def message: String
+case class BlankNameError() extends DomainError {
+
+  override def getMessage: String = "Name cannot be blank"
 }
 
-case class BlankNameError(message: String = "Name cannot be blank") extends DomainError
-case class ApiRequestError(message: String = "Error occurred while requesting 3rd party API") extends DomainError
+case class ApiRequestError(statusCode: Int) extends DomainError {
+  override def getMessage: String = s"Error occurred while requesting 3rd party API, status code: $statusCode"
+}
+
+case class OrganizationDoesNotExistsError(organizationName: String) extends DomainError {
+  override def getMessage: String = s"Organization $organizationName does not exists"
+}

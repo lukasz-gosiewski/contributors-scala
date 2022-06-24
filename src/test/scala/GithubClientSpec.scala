@@ -18,7 +18,7 @@ class GithubClientSpec extends AsyncFreeSpec with AsyncIOSpec with Matchers {
   "get organization repositories" - {
     "return no errors" in {
       val result: IO[Seq[RepositoryDto]] = BlazeClientBuilder[IO].resource
-        .use(client => getOrganizationRepos(ORG_NAME, ORG_AUTH_TOKEN, client)
+        .use(client => getOrganizationRepositories(ORG_NAME, ORG_AUTH_TOKEN, client)
         )
 
       result.assertNoException
@@ -26,7 +26,7 @@ class GithubClientSpec extends AsyncFreeSpec with AsyncIOSpec with Matchers {
 
     "return a list of repositories" in {
       val result: IO[Seq[RepositoryDto]] = BlazeClientBuilder[IO].resource
-        .use(client => getOrganizationRepos(ORG_NAME, ORG_AUTH_TOKEN, client)
+        .use(client => getOrganizationRepositories(ORG_NAME, ORG_AUTH_TOKEN, client)
         )
 
       result.assertNoException
@@ -37,7 +37,7 @@ class GithubClientSpec extends AsyncFreeSpec with AsyncIOSpec with Matchers {
 
     "return error when organization does not exists" in {
       val result: IO[Seq[RepositoryDto]] = BlazeClientBuilder[IO].resource
-        .use(client => getOrganizationRepos("non-existing-org-name-123", ORG_AUTH_TOKEN, client))
+        .use(client => getOrganizationRepositories("non-existing-org-name-123", ORG_AUTH_TOKEN, client))
 
       recoverToSucceededIf[UnexpectedStatus] {
         result.unsafeToFuture()
@@ -46,7 +46,7 @@ class GithubClientSpec extends AsyncFreeSpec with AsyncIOSpec with Matchers {
 
     "return error when organization name blank" in {
       val result: IO[Seq[RepositoryDto]] = BlazeClientBuilder[IO].resource
-        .use(client => getOrganizationRepos(" ", ORG_AUTH_TOKEN, client))
+        .use(client => getOrganizationRepositories(" ", ORG_AUTH_TOKEN, client))
 
       recoverToSucceededIf[BlankNameError] {
         result.unsafeToFuture()
